@@ -1,576 +1,1112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NMPA Medico Legal Experts</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f7f7f7;
-    color: #333;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NMPA Medico Legal Experts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5a2a83;
+            --primary-dark: #432165;
+            --secondary: #7b44b1;
+            --accent: #ff6b6b;
+            --light: #f7f7f7;
+            --dark: #333;
+            --text: #333;
+            --text-light: #555;
+            --white: #fff;
+            --gray: #f0f0f0;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
 
-  header {
-    background-color: #5a2a83;
-    color: white;
-    padding: 2rem 1rem;
-    text-align: center;
-  }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  header button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #fff;
-    color: #5a2a83;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-  nav {
-    text-align: center;
-    background-color: #eee;
-    padding: 0.5rem;
-  }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+        }
 
-  nav a {
-    margin: 0 1rem;
-    text-decoration: none;
-    color: #5a2a83;
-    font-weight: bold;
-  }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-  .hero {
-    position: relative;
-    height: 300px;
-    color: white;
-    font-size: 2rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-shadow: 1px 1px 4px black;
-    overflow: hidden;
-    background-color: #333;
-  }
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 15px;
+        }
 
-  .hero-slide {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out;
-    z-index: 0;
-  }
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(90, 42, 131, 0.3);
+        }
 
-  .hero-slide.active {
-    opacity: 1;
-    z-index: 1;
-  }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
 
-  .hero-text {
-    position: relative;
-    z-index: 2;
-  }
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
 
-  .section {
-    padding: 2rem 1rem;
-    text-align: center;
-  }
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
 
-  /* Clean reversed image style */
-  .section img {
-    max-width: 250px;
-    width: 100%;
-    height: auto;
-    border-radius: 50%;
-    border: 3px solid #fff; /* subtle white border */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    margin: 1.5rem auto 1rem;
-    display: block;
-    object-fit: cover;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    filter: brightness(1);
-    position: relative;
-    z-index: 1;
-  }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-  /* On hover, subtle shrink with lighter shadow */
-  .section img:hover {
-    transform: scale(0.95);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
-    filter: brightness(1.05);
-  }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
 
-  /* Remove any ring or extra decoration */
-  .section::before {
-    content: none;
-  }
+        .logo h1 {
+            color: var(--white);
+            font-size: 24px;
+            margin-left: 10px;
+        }
 
-  .owner-caption {
-    margin-top: 0.5rem;
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #5a2a83;
-    text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
+        .logo-icon {
+            font-size: 28px;
+            color: var(--white);
+        }
 
-  /* Keep the rest of layout as before */
+        /* Navigation */
+        .nav-container {
+            display: flex;
+            align-items: center;
+        }
 
-  .section + .section {
-    margin-top: 3rem;
-  }
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
 
-  .section img + p {
-    margin-top: 1rem;
-    font-size: 1rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    color: #555;
-  }
+        nav ul li {
+            margin: 0 15px;
+        }
 
-  .services {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    padding: 1rem;
-  }
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
 
-  .service-card {
-    background: white;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    text-align: center;
-  }
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--white);
+            left: 0;
+            bottom: 0;
+            transition: var(--transition);
+        }
 
-  .service-card i {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    color: #5a2a83;
-  }
+        nav ul li a:hover:after {
+            width: 100%;
+        }
 
-  .service-card img {
-    max-width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-  }
+        .contact-info {
+            display: flex;
+            align-items: center;
+            margin-left: 30px;
+        }
 
-  footer {
-    background-color: #222;
-    color: white;
-    text-align: center;
-    padding: 2rem 1rem;
-  }
+        .contact-info a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+        }
 
-  footer a {
-    color: #ccc;
-    margin: 0 0.5rem;
-    text-decoration: none;
-  }
+        .contact-info i {
+            margin-right: 5px;
+        }
 
-  /* Chat box styles */
-  #chat-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 300px;
-    max-height: 400px;
-    background: white;
-    border: 2px solid #5a2a83;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(90, 42, 131, 0.3);
-    display: flex;
-    flex-direction: column;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-    z-index: 9999;
-  }
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--white);
+            margin-left: 20px;
+        }
 
-  #chat-header {
-    background: #5a2a83;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(90, 42, 131, 0.8), rgba(67, 33, 101, 0.9)), url('https://images.unsplash.com/photo-1581595219319-5b8b4c8a2c3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 180px 0 100px;
+            text-align: center;
+        }
 
-  #chat-messages {
-    flex-grow: 1;
-    padding: 10px;
-    overflow-y: auto;
-    font-size: 14px;
-  }
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-  #chat-input-container {
-    display: flex;
-    border-top: 1px solid #ccc;
-  }
+        .hero h1 {
+            color: var(--white);
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
 
-  #chat-input {
-    flex-grow: 1;
-    border: none;
-    padding: 10px;
-    font-size: 14px;
-  }
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-  #chat-input:focus {
-    outline: none;
-  }
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
 
-  #chat-send-btn {
-    background: #5a2a83;
-    color: white;
-    border: none;
-    padding: 0 15px;
-    cursor: pointer;
-    font-weight: bold;
-  }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 60px;
+        }
 
-  #chat-send-btn:hover {
-    background: #432165;
-  }
+        .stat-item {
+            text-align: center;
+        }
 
-  /* Initially hide chat box messages/input */
-  #chat-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
+        .stat-number {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--accent);
+        }
 
-  #chat-container.collapsed #chat-content {
-    display: none;
-  }
-</style>
+        .stat-label {
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background: var(--accent);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-light);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .service-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+
+        .service-content {
+            padding: 25px;
+        }
+
+        .service-content h3 {
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .service-content p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .service-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background: var(--light);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-img {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 500px;
+        }
+
+        .about-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h2 {
+            font-size: 36px;
+            margin-bottom: 25px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .expertise-list {
+            margin: 30px 0;
+        }
+
+        .expertise-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .expertise-list li i {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80') no-repeat center center;
+            background-size: cover;
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .testimonial-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin: 0 auto;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .testimonial-card:before {
+            content: '\201C';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 80px;
+            color: var(--primary);
+            opacity: 0.2;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-text {
+            font-size: 18px;
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background: var(--light);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info {
+            margin-bottom: 30px;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .contact-detail {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 20px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .contact-text h4 {
+            margin-bottom: 5px;
+        }
+
+        .contact-text a {
+            color: var(--text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-text a:hover {
+            color: var(--primary);
+        }
+
+        .contact-form {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-form h3 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: var(--white);
+            padding: 70px 0 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-col h4 {
+            color: var(--white);
+            font-size: 20px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+            bottom: -10px;
+            left: 0;
+        }
+
+        .footer-col p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+            list-style: none;
+        }
+
+        .footer-links li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: var(--transition);
+            display: block;
+        }
+
+        .footer-links li a:hover {
+            color: var(--white);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 150px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .contact-info {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .section-header h2 {
+                font-size: 28px;
+            }
+            
+            .stat-number {
+                font-size: 32px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-balance-scale logo-icon"></i>
+                <h1>NMPA</h1>
+            </div>
+            
+            <div class="nav-container">
+                <nav>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="contact-info">
+                    <a href="tel:+27123456789">
+                        <i class="fas fa-phone"></i> +27 12 345 6789
+                    </a>
+                </div>
+                
+                <button class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
 
-<header>
-  <h1>NMPA MEDICO LEGAL EXPERTS</h1>
-  <p>FAST, EFFECTIVE, RELIABLE • QUALITY REPORT</p>
-  <button onclick="window.location.href='mailto:nmpaservices@gmail.com'">BOOK NOW</button>
-</header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Expert Medico-Legal Assessments & Reports</h1>
+                <p>Providing comprehensive, reliable, and timely medico-legal services for legal professionals and claimants</p>
+                
+                <div class="hero-btns">
+                    <a href="#contact" class="btn">Request Consultation</a>
+                    <a href="#services" class="btn btn-outline">Our Services</a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Cases Evaluated</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Client Satisfaction</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<nav>
-  <a href="#">WhatsApp</a>
-  <a href="#">Instagram</a>
-  <a href="#">LinkedIn</a>
-  <a href="#">Facebook</a>
-</nav>
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Comprehensive medico-legal assessments and reports for a wide range of cases</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-car-crash"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Road Accident Fund Claims</h3>
+                        <p>Comprehensive assessments and reports for Road Accident Fund claims, evaluating injuries and determining compensation.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Medical Negligence</h3>
+                        <p>Expert evaluation of medical negligence cases to determine liability and appropriate compensation.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-person-falling"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Slip and Fall Injuries</h3>
+                        <p>Thorough assessment of injuries from slip and fall accidents for insurance and legal claims.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Functional Capacity</h3>
+                        <p>Evaluation of functional capacity for insurance claims, disability determinations, and workplace assessments.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-handcuffs"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Wrongful Arrest</h3>
+                        <p>Assessment of psychological and physical impacts of wrongful arrest and detention cases.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-briefcase-medical"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Compensation Claims</h3>
+                        <p>Comprehensive assessments for various compensation claims including workplace injuries.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="hero">
-  <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80');"></div>
-  <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=1200&q=80');"></div>
-  <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80');"></div>
-  <div class="hero-text">WELCOME TO NMPA</div>
-</div>
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-img">
+                    <!-- Owner image with your specified path -->
+                    <img src="Owner.avif" alt="Phathutshedzo - Medico Legal Expert">
+                </div>
+                <div class="about-text">
+                    <h2>Meet Our Lead Expert</h2>
+                    <p>Phathutshedzo is a highly experienced medico-legal expert with over 15 years of experience in the field. His expertise spans a wide range of medico-legal assessments and his reports are recognized for their accuracy and reliability.</p>
+                    
+                    <p>With a background in both clinical medicine and legal medicine, Phathutshedzo brings a unique perspective to each case, ensuring comprehensive evaluations that stand up to legal scrutiny.</p>
+                    
+                    <h3>Areas of Expertise:</h3>
+                    <ul class="expertise-list">
+                        <li><i class="fas fa-check-circle"></i> Road Accident Fund assessments</li>
+                        <li><i class="fas fa-check-circle"></i> Medical negligence evaluations</li>
+                        <li><i class="fas fa-check-circle"></i> Injury severity assessments</li>
+                        <li><i class="fas fa-check-circle"></i> Disability evaluations</li>
+                        <li><i class="fas fa-check-circle"></i> Occupational health assessments</li>
+                    </ul>
+                    
+                    <a href="#contact" class="btn">Schedule Consultation</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section class="section">
-  <h2>Meet Phathutshedzo</h2>
-  <p>Hi! I'm Phathutshedzo, one of the experts at NMPA Medico Legal. Let's help you today!</p>
-  <img src="Owner.avif" alt="Phathutshedzo - NMPA Expert" />
-  <div class="owner-caption">
-    <strong>Phathutshedzo</strong><br />
-    Medico Legal Expert
-  </div>
-</section>
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container testimonial-container">
+            <div class="section-header">
+                <h2>Client Testimonials</h2>
+                <p>What our clients say about our services</p>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">"NMPA provided a comprehensive medico-legal report that was instrumental in winning our case. Their attention to detail and professionalism exceeded our expectations. The report was thorough, well-documented, and delivered ahead of schedule."</p>
+                
+                <div class="testimonial-author">
+                    <div class="author-img">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Smith">
+                    </div>
+                    <div class="author-info">
+                        <h4>John Smith</h4>
+                        <p>Attorney at Law, Johannesburg</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section class="section" style="margin-top: 3rem;">
-  <h2>Upcoming Assessments</h2>
-  <p>No events at the moment</p>
-  <img src="https://via.placeholder.com/600x300?text=Coming+Soon+Banner" alt="Upcoming Events" />
-</section>
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contact Us</h2>
+                <p>Get in touch for a consultation or to learn more about our services</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    
+                    <div class="contact-detail">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Our Location</h4>
+                            <p>123 Medical Avenue<br>Pretoria, 0001<br>South Africa</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-detail">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Phone Number</h4>
+                            <p><a href="tel:+27123456789">+27 12 345 6789</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-detail">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Email Address</h4>
+                            <p><a href="mailto:nmpaservices@gmail.com">nmpaservices@gmail.com</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-detail">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Working Hours</h4>
+                            <p>Monday - Friday: 8:00 AM - 5:00 PM<br>Saturday: 9:00 AM - 1:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="service">Service Interested In</label>
+                            <select id="service" class="form-control">
+                                <option value="">Select a service</option>
+                                <option value="raf">Road Accident Fund</option>
+                                <option value="negligence">Medical Negligence</option>
+                                <option value="slip">Slip and Fall</option>
+                                <option value="capacity">Functional Capacity</option>
+                                <option value="arrest">Wrongful Arrest</option>
+                                <option value="compensation">Compensation Claims</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section class="section" style="margin-top: 3rem;">
-  <h2>Our Services</h2>
-  <p>We offer professional reports and assessments tailored for legal cases.</p>
-  <div class="services">
-    <div class="service-card">
-      <i class="fas fa-car-crash"></i>
-      <img src="https://via.placeholder.com/400x150?text=Road+Accident+Fund" alt="Road Accident Fund" />
-      <div>Road Accident Fund</div>
-    </div>
-    <div class="service-card">
-      <i class="fas fa-user-md"></i>
-      <img src="https://via.placeholder.com/400x150?text=Medical+Negligence" alt="Medical Negligence" />
-      <div>Medical Negligence / Malpractice</div>
-    </div>
-    <div class="service-card">
-      <i class="fas fa-person-falling"></i>
-      <img src="https://via.placeholder.com/400x150?text=Slip+and+Fall" alt="Slip and Fall" />
-      <div>Slip and Fall</div>
-    </div>
-    <div class="service-card">
-      <i class="fas fa-clipboard-check"></i>
-      <img src="https://via.placeholder.com/400x150?text=Functional+Capacity" alt="Insurance Functional Capacity" />
-      <div>Insurance Functional Capacity</div>
-    </div>
-    <div class="service-card">
-      <i class="fas fa-handcuffs"></i>
-      <img src="https://via.placeholder.com/400x150?text=Wrongful+Arrest" alt="Wrongful Arrest" />
-      <div>Wrongful Arrest</div>
-    </div>
-    <div class="service-card">
-      <i class="fas fa-briefcase-medical"></i>
-      <img src="https://via.placeholder.com/400x150?text=Compensation+Claims" alt="Compensation Claims" />
-      <div>Compensation Claims</div>
-    </div>
-  </div>
-</section>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h4>About NMPA</h4>
+                    <p>NMPA Medico Legal Experts provides comprehensive and reliable medico-legal assessment services for legal professionals and claimants throughout South Africa.</p>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Our Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Road Accident Fund Claims</a></li>
+                        <li><a href="#">Medical Negligence</a></li>
+                        <li><a href="#">Slip and Fall Injuries</a></li>
+                        <li><a href="#">Functional Capacity</a></li>
+                        <li><a href="#">Wrongful Arrest</a></li>
+                        <li><a href="#">Compensation Claims</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Medical Avenue, Pretoria</li>
+                        <li><i class="fas fa-phone"></i> +27 12 345 6789</li>
+                        <li><i class="fas fa-envelope"></i> nmpaservices@gmail.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 8:00AM - 5:00PM</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 NMPA Medico Legal Experts. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-<footer>
-  <p>Contact us at: <a href="mailto:nmpaservices@gmail.com">nmpaservices@gmail.com</a></p>
-  <p>Follow us on social media: 
-    <a href="#">WhatsApp</a> | 
-    <a href="#">Instagram</a> | 
-    <a href="#">LinkedIn</a> | 
-    <a href="#">Facebook</a>
-  </p>
-  <p>&copy; 2025 NMPA Medico Legal Experts</p>
-</footer>
-
-<!-- Add this inside your JSP/HTML page -->
-
-<style>
-  #chat-container {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 320px;
-    max-height: 420px;
-    background: white;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: max-height 0.4s ease;
-    z-index: 9999;
-  }
-
-  #chat-container.collapsed {
-    max-height: 40px; /* just header height */
-  }
-
-  #chat-header {
-    background-color: #5a2a83;
-    color: white;
-    padding: 12px 16px;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  #chat-toggle {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 1.4em;
-    transition: transform 0.3s ease;
-  }
-
-  #chat-container.collapsed #chat-toggle {
-    transform: rotate(180deg);
-  }
-
-  #chat-messages {
-    flex-grow: 1;
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    gap: 8px;
-    background-color: #f8f8f8;
-  }
-
-  #chat-input-area {
-    display: flex;
-    border-top: 1px solid #ddd;
-    padding: 8px 12px;
-    background: white;
-  }
-
-  #chat-input {
-    flex-grow: 1;
-    border: none;
-    padding: 10px;
-    font-size: 1em;
-    border-radius: 20px;
-    background-color: #f0f0f0;
-    outline: none;
-    transition: background-color 0.2s;
-  }
-
-  #chat-input:focus {
-    background-color: #e6e6e6;
-  }
-
-  #chat-send-btn {
-    background-color: #5a2a83;
-    border: none;
-    color: white;
-    font-size: 1.2em;
-    margin-left: 8px;
-    padding: 0 15px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-
-  #chat-send-btn:hover {
-    background-color: #7b44b1;
-  }
-
-  /* Message bubbles */
-  .message {
-    max-width: 80%;
-    padding: 10px 14px;
-    border-radius: 15px;
-    word-wrap: break-word;
-    font-size: 0.95em;
-    position: relative;
-    display: inline-block;
-  }
-
-  .message.user {
-    background-color: #5a2a83;
-    color: white;
-    align-self: flex-end;
-    border-bottom-right-radius: 0;
-  }
-
-  .message.bot {
-    background-color: #eee;
-    color: #333;
-    align-self: flex-start;
-    border-bottom-left-radius: 0;
-  }
-
-  /* Timestamp */
-  .message .timestamp {
-    display: block;
-    font-size: 0.7em;
-    color: #888;
-    margin-top: 4px;
-    text-align: right;
-  }
-</style>
-
-<div id="chat-container" class="collapsed" role="region" aria-label="Chat window">
-  <div id="chat-header" tabindex="0" aria-controls="chat-messages chat-input-area" aria-expanded="false">
-    <span>Chat with us</span>
-    <button id="chat-toggle" aria-label="Toggle chat window">&#9660;</button>
-  </div>
-  <div id="chat-messages" aria-live="polite" aria-relevant="additions"></div>
-  <div id="chat-input-area">
-    <input id="chat-input" type="text" placeholder="Type your message..." autocomplete="off" aria-label="Chat message input" />
-    <button id="chat-send-btn" aria-label="Send message">&#9658;</button>
-  </div>
-</div>
-
-<script>
-  const chatContainer = document.getElementById('chat-container');
-  const chatToggle = document.getElementById('chat-toggle');
-  const chatHeader = document.getElementById('chat-header');
-  const chatMessages = document.getElementById('chat-messages');
-  const chatInput = document.getElementById('chat-input');
-  const chatSendBtn = document.getElementById('chat-send-btn');
-
-  // Toggle chat open/close
-  function toggleChat() {
-    const collapsed = chatContainer.classList.toggle('collapsed');
-    chatToggle.innerHTML = collapsed ? '&#9660;' : '&#9650;';
-    chatHeader.setAttribute('aria-expanded', !collapsed);
-    if (!collapsed) {
-      chatInput.focus();
-      scrollToBottom();
-    }
-  }
-
-  chatToggle.addEventListener('click', toggleChat);
-  chatHeader.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      toggleChat();
-    }
-  });
-
-  // Append message with timestamp
-  function appendMessage(text, sender = 'user') {
-    const msg = document.createElement('div');
-    msg.classList.add('message', sender);
-    msg.textContent = text;
-
-    const timeSpan = document.createElement('span');
-    timeSpan.classList.add('timestamp');
-    const now = new Date();
-    timeSpan.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    msg.appendChild(timeSpan);
-
-    chatMessages.appendChild(msg);
-    scrollToBottom();
-  }
-
-  // Scroll chat messages to bottom
-  function scrollToBottom() {
-    chatMessages.scrollTo({top: chatMessages.scrollHeight, behavior: 'smooth'});
-  }
-
-  // Simple bot reply logic (replace with your backend later)
-  function getBotReply(userText) {
-    userText = userText.toLowerCase();
-    if (userText.includes('hello') || userText.includes('hi')) {
-      return 'Hello! How can we assist you today?';
-    } else if (userText.includes('services')) {
-      return 'We offer medico legal reports, assessments, and expert witness services.';
-    } else if (userText.includes('book')) {
-      return 'You can book an appointment by clicking the "BOOK NOW" button above or emailing us at nmpaservices@gmail.com.';
-    } else if (userText.includes('thanks') || userText.includes('thank you')) {
-      return 'You’re welcome! If you have more questions, just ask.';
-    } else {
-      return "Sorry, I didn't quite get that. Could you please rephrase?";
-    }
-  }
-
-  // Send message handler
-  function sendMessage() {
-    const text = chatInput.value.trim();
-    if (!text) return;
-
-    appendMessage(text, 'user');
-    chatInput.value = '';
-
-    setTimeout(() => {
-      const reply = getBotReply(text);
-      appendMessage(reply, 'bot');
-    }, 700);
-  }
-
-  // Event listeners for send button and Enter key
-  chatSendBtn.addEventListener('click', sendMessage);
-  chatInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-</script>
-
-
+    <script>
+        // Mobile Navigation Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const nav = document.querySelector('nav ul');
+        
+        hamburger.addEventListener('click', () => {
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        });
+        
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (nav.style.display === 'flex') {
+                        nav.style.display = 'none';
+                    }
+                }
+            });
+        });
+        
+        // Form Submission
+        const contactForm = document.querySelector('.contact-form form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                
+                // Show success message
+                alert(`Thank you ${name}! Your message has been sent. We'll contact you at ${email} shortly.`);
+                
+                // Reset form
+                this.reset();
+            });
+        }
+    </script>
 </body>
 </html>
